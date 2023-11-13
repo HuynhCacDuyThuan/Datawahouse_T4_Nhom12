@@ -1,0 +1,23 @@
+package controller;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+import model.PrizeInfo;
+
+public class DataParser {
+	public static String curentDateGetter() {
+		LocalDate currentDate = LocalDate.now(ZoneId.of("GMT+7"));
+
+		// Format the date as "ddMMyyyy"
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+		String formattedDate = currentDate.format(formatter);
+		return formattedDate;
+	}
+
+	public static void main(String[] args) {
+		ArrayList<PrizeInfo> prizeInfoList = XosoCrawler.
+	}
+}

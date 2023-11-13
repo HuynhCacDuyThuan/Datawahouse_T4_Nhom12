@@ -1,0 +1,16 @@
+ackage controller;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class DataParser {
+	public static void main(String[] args) throws IOException {
+		Workbook wb = new XSSFWorkbook();
+		
+		FileOutputStream fos = new FileOutputStream("data.xlsx");
+		wb.write(fos);
+	}
+}

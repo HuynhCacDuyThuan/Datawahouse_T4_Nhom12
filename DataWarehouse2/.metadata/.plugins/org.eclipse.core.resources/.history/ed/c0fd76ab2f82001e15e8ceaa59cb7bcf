@@ -1,0 +1,21 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
+
+public class Main {
+public static void main(String[] args) throws CsvValidationException {
+	try (CSVWriter writer = new CSVWriter(new FileWriter("path/to/your/output/file.csv"))) {
+        // Dữ liệu mẫu để ghi vào CSV
+        String[] data1 = {"John", "Doe", "30"};
+        String[] data2 = {"Jane", "Doe", "25"};
+
+        // Ghi dữ liệu vào tệp CSV
+        writer.writeNext(data1);
+        writer.writeNext(data2);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+}
