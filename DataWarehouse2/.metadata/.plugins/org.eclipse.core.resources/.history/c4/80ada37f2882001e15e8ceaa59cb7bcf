@@ -1,8 +1,0 @@
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-public class test {
-	public static void main(String[] args) {
-		Workbook wb = new XSSFWorkbook();
-		}
-}
