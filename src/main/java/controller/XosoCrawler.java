@@ -43,9 +43,9 @@ public class XosoCrawler {
 			dateText = dateText.replace("Xổ số Miền Bắc Thứ Tư", "").trim();
 			dateText = dateText.replace("Xổ số Miền Bắc Thứ Tư", "").trim();
 		}
-		if (dateText.contains("Thứ Năm")) {
-			dateText = dateText.replace("Xổ số Miền Bắc Thứ Năm", "").trim();
-			dateText = dateText.replace("Xổ số Miền Bắc Thứ Năm", "").trim();
+		if (dateText.contains("Thứ năm")) {
+			dateText = dateText.replace("Xổ số Miền Bắc Thứ năm", "").trim();
+			dateText = dateText.replace("Xổ số Miền Bắc Thứ năm", "").trim();
 		}
 		if (dateText.contains("Thứ Sáu")) {
 			dateText = dateText.replace("Xổ số Miền Bắc Thứ Sáu", "").trim();
@@ -116,6 +116,10 @@ public class XosoCrawler {
 		if (dateText.contains("Thứ Năm")) {
 			dateText = dateText.replace("Xổ số Miền Nam Thứ Năm", "").trim();
 			dateText = dateText.replace("Xổ số Miền Trung Thứ Năm", "").trim();
+		}
+		if (dateText.contains("Thứ năm")) {
+			dateText = dateText.replace("Xổ số Miền Nam Thứ năm", "").trim();
+			dateText = dateText.replace("Xổ số Miền Trung Thứ năm", "").trim();
 		}
 		if (dateText.contains("Thứ Sáu")) {
 			dateText = dateText.replace("Xổ số Miền Nam Thứ Sáu", "").trim();

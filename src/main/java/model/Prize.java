@@ -35,6 +35,10 @@ public class Prize {
 		this.winningNumbers = winningNumbers;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

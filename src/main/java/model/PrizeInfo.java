@@ -19,6 +19,10 @@ public class PrizeInfo {
 		this.prizes = prizes;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -66,11 +70,9 @@ public class PrizeInfo {
 	public void setPrizes(ArrayList<Prize> prizes) {
 		this.prizes = prizes;
 	}
-
 	public String getDate() {
 		return date;
 	}
-
 	public void setDate(String date) {
 		this.date = date;
 	}

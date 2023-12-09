@@ -15,7 +15,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import com.opencsv.CSVWriter;
+
 
 import model.Prize;
 import model.PrizeInfo;
@@ -43,17 +43,21 @@ public class DataParser {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		String date = "14-10-2023";
+		String date = "08-12-2023";
 		String dirpath = "csv/";
-		String filePath = dirpath + "KQSX" + ".csv";
+		String filePath = dirpath + "KQSX"+ ".csv";
 
 		File file = new File(filePath);
+/**
+ * kiem tra file ton tai k
+ *
+ */
 
 		// Check if the date is already present in the CSV file
 		if (isDatePresent(file, date)) {
 			return;
 		} else {
-			// Perform the web request to get prize information
+
 			ArrayList<PrizeInfo> prizeInfoList = XosoCrawler.getAllPrize(date);
 
 			// Perform the writing operation
