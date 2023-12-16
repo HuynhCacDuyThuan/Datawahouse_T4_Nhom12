@@ -7,6 +7,11 @@ import java.sql.SQLException;
  *
  */
 public class DataWahouse {
+    /**
+     * kết nối sql
+     * @return
+     * @throws SQLException
+     */
     public static Connection connection() throws SQLException {
         Connection connection = null;
         try {

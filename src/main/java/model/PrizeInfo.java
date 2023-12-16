@@ -70,6 +70,7 @@ public class PrizeInfo {
 	public void setPrizes(ArrayList<Prize> prizes) {
 		this.prizes = prizes;
 	}
+
 	public String getDate() {
 		return date;
 	}
