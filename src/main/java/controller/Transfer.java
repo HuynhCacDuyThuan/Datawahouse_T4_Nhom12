@@ -41,7 +41,7 @@ public class Transfer {
                  *
                  */
                 java.sql.Date originalDate = resultSet.getDate(2);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
                 String formattedDate = dateFormat.format(originalDate);
                 statement.setString(2, formattedDate);
                 statement.setString(3, resultSet.getString(3));

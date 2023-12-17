@@ -18,7 +18,8 @@ public class Gui extends JFrame implements ActionListener {
     private JDateChooser dateChooser = new JDateChooser();
     JPanel container = new JPanel();
     JLabel lbsoxo = new JLabel("Kết quả số xố ngày");
-    JLabel date = new JLabel("26-11-2023");
+
+    JLabel date = new JLabel();
     JLabel lbname = new JLabel("KẾT QUẢ SỔ XỐ MIỀN NAM");
     private JTable table;
     private JTable calendarTable;
@@ -29,7 +30,7 @@ public class Gui extends JFrame implements ActionListener {
 
     }
 
-    public Gui() {
+    public Gui() throws SQLException {
         getContentPane().add(container);
         setLayoutManager();
         addComponentsToContainer();
@@ -51,12 +52,12 @@ public class Gui extends JFrame implements ActionListener {
  */
 
                     // formart ngay thang nam
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
                     String formattedDate = dateFormat.format(selectedDate);
+                    System.out.println(formattedDate);
 /**
  * Cập nhập ngày vào  lable date
  */
-                    date.setText(formattedDate);
                     ArrayList<Lottery> arrayList = LoteryDao.arrayList("Miền Nam", formattedDate);
                     int  countDoMain = LoteryDao.countDomain("Miền Nam", formattedDate);
                     tableModel = new DefaultTableModel(9, countDoMain +1);
@@ -110,12 +111,10 @@ public class Gui extends JFrame implements ActionListener {
                     table.setRowHeight(rowIndexToSetHeight, rowHeight);
                     table.setRowHeight(rowIndexToSetHeight1, rowHeight4);
                     table.setRowHeight(rowIndexToSetHeight3, rowHeight);
-
                     table.setRowHeight(rowIndexToSetHeight2, rowHeight);
                     table.setRowHeight(rowIndexToSetHeight5, rowHeight);
                     table.setRowHeight(rowIndexToSetHeight6, rowHeight);
                     table.setRowHeight(rowIndexToSetHeight7, rowHeight);
-
                     /**
                      * Ghi gia tri giai vao bang
                      */
@@ -254,7 +253,7 @@ public class Gui extends JFrame implements ActionListener {
         lbname.setBounds(130, 70, 250, 34);
     }
 
-    private void addTableAdmin() {
+    private void addTableAdmin() throws SQLException {
         String result = "<html>";
         String result1 = "<html>";
         String result2 = "<html>";
@@ -267,7 +266,10 @@ public class Gui extends JFrame implements ActionListener {
         String result9 = "<html>";
         String result10 = "<html>";
         String result11= "<html>";
-        int  countDoMain = LoteryDao.countDomain("Miền Nam", "26-11-2023");
+        LoteryDao loteryDao = new LoteryDao();
+
+        int  countDoMain = LoteryDao.countDomain("Miền Nam",  loteryDao.maxDate());
+        date.setText(       loteryDao.formatDate(loteryDao.maxDate()));
         tableModel = new DefaultTableModel(9, countDoMain +1);
         table = new JTable(tableModel);
         table.getColumnModel().getColumn(0).setHeaderValue("Giải");
@@ -276,7 +278,8 @@ public class Gui extends JFrame implements ActionListener {
          *ghi tên các đài
          *
          */
-        ArrayList<Lottery> arrayList = LoteryDao.arrayList("Miền Nam", "26-11-2023");
+
+        ArrayList<Lottery> arrayList = LoteryDao.arrayList("Miền Nam",  loteryDao.maxDate());
         for (int i = 1; i <= arrayList.size(); i++) {
 
             table.getColumnModel().getColumn(i).setHeaderValue(arrayList.get(i-1).getProvince());
@@ -301,15 +304,15 @@ public class Gui extends JFrame implements ActionListener {
 
         }
         //LAY DU LIEU
-        ArrayList<Lottery> giaidb =LoteryDao.select("Miền Nam", "26-11-2023","Đặc Biệt");
-        ArrayList<Lottery> giaiNhat = LoteryDao.select("Miền Nam", "26-11-2023","Giải Nhất");
-        ArrayList<Lottery> giaiNhi = LoteryDao.select("Miền Nam", "26-11-2023","Giải Nhì");
-        ArrayList<Lottery> giaiBA = LoteryDao.select("Miền Nam", "26-11-2023","Giải Ba");
-        ArrayList<Lottery> giaiTu= LoteryDao.select("Miền Nam","26-11-2023","Giải Tư");
-        ArrayList<Lottery> giaiNam= LoteryDao.select("Miền Nam", "26-11-2023","Giải Năm");
-        ArrayList<Lottery> giaiSau = LoteryDao.select("Miền Nam","26-11-2023","Giải Sáu");
-        ArrayList<Lottery> giaiBay = LoteryDao.select("Miền Nam", "26-11-2023","Giải Bảy");
-        ArrayList<Lottery> giaiTam= LoteryDao.select("Miền Nam", "26-11-2023","Giải Tám");
+        ArrayList<Lottery> giaidb =LoteryDao.select("Miền Nam",loteryDao.maxDate(),"Đặc Biệt");
+        ArrayList<Lottery> giaiNhat = LoteryDao.select("Miền Nam", loteryDao.maxDate() ,"Giải Nhất");
+        ArrayList<Lottery> giaiNhi = LoteryDao.select("Miền Nam",  loteryDao.maxDate(),"Giải Nhì");
+        ArrayList<Lottery> giaiBA = LoteryDao.select("Miền Nam", loteryDao.maxDate(),"Giải Ba");
+        ArrayList<Lottery> giaiTu= LoteryDao.select("Miền Nam", loteryDao.maxDate(),"Giải Tư");
+        ArrayList<Lottery> giaiNam= LoteryDao.select("Miền Nam",  loteryDao.maxDate(),"Giải Năm");
+        ArrayList<Lottery> giaiSau = LoteryDao.select("Miền Nam", loteryDao.maxDate(),"Giải Sáu");
+        ArrayList<Lottery> giaiBay = LoteryDao.select("Miền Nam",  loteryDao.maxDate(),"Giải Bảy");
+        ArrayList<Lottery> giaiTam= LoteryDao.select("Miền Nam",  loteryDao.maxDate(),"Giải Tám");
 /**
  * điều chỉnh chiều cao
  */
@@ -452,7 +455,7 @@ public class Gui extends JFrame implements ActionListener {
 
     }
 
-    public static void main(String[] a) {
+    public static void main(String[] a) throws SQLException {
         Gui frame = new Gui();
         frame.setTitle("Sổ xố kiến thiết");
         frame.setVisible(true);

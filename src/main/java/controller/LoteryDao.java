@@ -4,10 +4,9 @@ package controller;
 import Connect.DataMart;
 import model.Lottery;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class LoteryDao {
@@ -112,13 +111,61 @@ public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLE
         }
         return list;
     }
+
+    /**
+     * Lấy ngày lớn nhất
+     * @param args
+     * @throws SQLException
+     */
+    public String maxDate() throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String maxDate = null;
+
+        try {
+            connection = DataMart.connection();
+            String sql = "SELECT MAX(Date) FROM datamart";
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            if (resultSet.next()) {
+                maxDate = resultSet.getString(1); // Lấy ngày lớn nhất
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Xử lý thêm nếu cần
+        } finally {
+            // Đóng các tài nguyên
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) { /* Xử lý ngoại lệ */ }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) { /* Xử lý ngoại lệ */ }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) { /* Xử lý ngoại lệ */ }
+            }
+        }
+
+        return maxDate;
+    }
+    public String formatDate(String dateString) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        LocalDateTime dateTime = LocalDateTime.parse(dateString, inputFormatter);
+        return dateTime.format(outputFormatter);
+    }
     public static void main(String[] args) throws SQLException {
         LoteryDao loteryDao = new LoteryDao();
-        loteryDao.lotteries("26-11-2023", "Miền Nam");
-        System.out.println(loteryDao.lotteries("26-11-2023", "Miền Nam"));
-        System.out.println(LoteryDao.countDomain("Miền Nam" ,"26-11-2023"));
-        System.out.println(LoteryDao.select("Miền Nam" ,"26-11-2023","Đặc Biệt"));
-        System.out.println(LoteryDao.arrayList("Miền Nam" ,"26-11-2023"));
+        System.out.println(loteryDao.formatDate(loteryDao.maxDate()));
     }
 
 }

@@ -43,22 +43,12 @@ public class DataParser {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		String date = "08-12-2023";
 		String dirpath = "csv/";
-		String filePath = dirpath + "KQSX"+ ".csv";
+		LocalDate ngayHienTai = LocalDate.now();
+		String filePath = dirpath + "KQSX_"+ngayHienTai + ".csv";
+       File  file = new File(filePath);
 
-		File file = new File(filePath);
-/**
- * kiem tra file ton tai k
- *
- */
-
-		// Check if the date is already present in the CSV file
-		if (isDatePresent(file, date)) {
-			return;
-		} else {
-
-			ArrayList<PrizeInfo> prizeInfoList = XosoCrawler.getAllPrize(date);
+			ArrayList<PrizeInfo> prizeInfoList = XosoCrawler.getAllPrize();
 
 			// Perform the writing operation
 			try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file, true),
@@ -78,10 +68,6 @@ public class DataParser {
 
 					// Check if the date is already present in the CSV file for the current
 					// PrizeInfo
-					if (isDatePresent(file, date1)) {
-						
-						continue;
-					} else
 
 						for (Prize p : pi.getPrizes()) {
 							ArrayList<String> prizeData = new ArrayList<>();
@@ -103,7 +89,7 @@ public class DataParser {
 				System.err.println("Lỗi khi ghi vào tệp CSV: " + e.getMessage());
 			}
 		}
-	}
+
 /**
  * kiem tra ngay ton tai trong file chưa
  * @param file
@@ -111,20 +97,7 @@ public class DataParser {
  * @return
  * @throws IOException
  */
-	private static boolean isDatePresent(File file, String date) throws IOException {
-		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-			reader.readLine();
-			String line;
-			while ((line = reader.readLine()) != null) {
 
-				String[] values = line.split(",");
-				if (values.length > 0 && values[0].trim().equals(date.trim())) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * 

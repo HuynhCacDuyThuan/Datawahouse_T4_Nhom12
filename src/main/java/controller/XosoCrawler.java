@@ -19,9 +19,13 @@ import model.PrizeInfo;
 
 public class XosoCrawler {
 
-	public static Elements connectToSource(String date) throws IOException {
-
-		String url = "https://kqxs.vn/?date=" + date;
+	/**
+	 * Kết nối đến source lấy dữ liệu
+	 * @return
+	 * @throws IOException
+	 */
+	public static Elements connectToSource() throws IOException {
+		String url = "https://kqxs.vn/" ;
 		Document document = Jsoup.connect(url).get();
 		Elements rows = document.select("div.block-result");
 		return rows;
@@ -202,9 +206,9 @@ public class XosoCrawler {
 	 * @return tra giai theo theo id miền
 	 * @throws IOException
 	 */
-	public static ArrayList<PrizeInfo> getAllPrize(String date) throws IOException {
+	public static ArrayList<PrizeInfo> getAllPrize() throws IOException {
 
-		Elements rows = connectToSource(date);
+		Elements rows = connectToSource();
 
 		ArrayList<PrizeInfo> pi = new ArrayList<>();
 		for (Element e : rows) {
@@ -222,12 +226,9 @@ public class XosoCrawler {
 	}
 
 	public static void main(String[] args) throws IOException {
-		Date date = new Date();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		String formattedDate = dateFormat.format(date);
-		System.out.println(formattedDate);
-		for (int i = 0; i < getAllPrize(formattedDate).size(); i++) {
-			System.out.println(getAllPrize(formattedDate).get(i));
+
+		for (int i = 0; i < getAllPrize().size(); i++) {
+			System.out.println(getAllPrize().get(i));
 		}
 	}
 
