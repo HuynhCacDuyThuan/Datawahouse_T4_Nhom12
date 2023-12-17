@@ -1,8 +1,8 @@
 package controller;
 
-import Connect.Control;
-import Connect.DataMart;
-import Connect.DataWahouse;
+import connect.Control;
+import connect.DataMart;
+import connect.DataWahouse;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -43,7 +43,7 @@ public class Transfer {
                 java.sql.Date originalDate = resultSet.getDate(2);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
                 String formattedDate = dateFormat.format(originalDate);
-                statement.setString(2, formattedDate);
+                statement.setDate(2, resultSet.getDate(2));
                 statement.setString(3, resultSet.getString(3));
                 statement.setString(4, resultSet.getString(4));
                 statement.setString(5, resultSet.getString(5));

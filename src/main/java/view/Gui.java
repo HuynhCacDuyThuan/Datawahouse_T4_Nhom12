@@ -305,6 +305,7 @@ public class Gui extends JFrame implements ActionListener {
         }
         //LAY DU LIEU
         ArrayList<Lottery> giaidb =LoteryDao.select("Miền Nam",loteryDao.maxDate(),"Đặc Biệt");
+
         ArrayList<Lottery> giaiNhat = LoteryDao.select("Miền Nam", loteryDao.maxDate() ,"Giải Nhất");
         ArrayList<Lottery> giaiNhi = LoteryDao.select("Miền Nam",  loteryDao.maxDate(),"Giải Nhì");
         ArrayList<Lottery> giaiBA = LoteryDao.select("Miền Nam", loteryDao.maxDate(),"Giải Ba");
@@ -344,7 +345,6 @@ public class Gui extends JFrame implements ActionListener {
          * Ghi gia tri giai vao bang
          */
         for (int i = 1; i <= giaidb.size(); i++) {
-
             double giaiDacBietValue = Double.parseDouble(giaidb.get(i-1).getWinningNumbers());
             tableModel.setValueAt((int) giaiDacBietValue, 8, i);
         }

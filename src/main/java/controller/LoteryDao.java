@@ -1,7 +1,7 @@
 package controller;
 
 
-import Connect.DataMart;
+import connect.DataMart;
 import model.Lottery;
 
 import java.sql.*;

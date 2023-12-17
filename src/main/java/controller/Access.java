@@ -1,6 +1,6 @@
 package controller;
 
-import Connect.Control;
+import connect.Control;
 import model.Prize;
 import model.PrizeInfo;
 import org.jsoup.Jsoup;
@@ -19,7 +19,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 public class Access {
     /**
