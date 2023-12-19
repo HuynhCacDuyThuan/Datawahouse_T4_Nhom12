@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -30,7 +31,7 @@ public class Gui extends JFrame implements ActionListener {
 
     }
 
-    public Gui() throws SQLException {
+    public Gui() throws SQLException , IOException  {
         getContentPane().add(container);
         setLayoutManager();
         addComponentsToContainer();
@@ -58,174 +59,180 @@ public class Gui extends JFrame implements ActionListener {
 /**
  * Cập nhập ngày vào  lable date
  */
-                    ArrayList<Lottery> arrayList = LoteryDao.arrayList("Miền Nam", formattedDate);
-                    int  countDoMain = LoteryDao.countDomain("Miền Nam", formattedDate);
-                    tableModel = new DefaultTableModel(9, countDoMain +1);
-                    for (int i = 1; i <= arrayList.size(); i++) {
-                       table.getColumnModel().getColumn(i).setHeaderValue(arrayList.get(i-1).getProvince());
-                    }
 
-                    /**
-                     *ghi tên các Giai
-                     *
-                     */
-                    ArrayList<Lottery> giaidb =LoteryDao.select("Miền Nam", formattedDate,"Đặc Biệt");
-                    ArrayList<Lottery> giaiNhat = LoteryDao.select("Miền Nam",  formattedDate,"Giải Nhất");
-                    ArrayList<Lottery> giaiNhi = LoteryDao.select("Miền Nam",  formattedDate,"Giải Nhì");
-                    ArrayList<Lottery> giaiBA = LoteryDao.select("Miền Nam",  formattedDate,"Giải Ba");
-                    ArrayList<Lottery> giaiTu= LoteryDao.select("Miền Nam", formattedDate,"Giải Tư");
-                    ArrayList<Lottery> giaiNam= LoteryDao.select("Miền Nam",  formattedDate,"Giải Năm");
-                    ArrayList<Lottery> giaiSau = LoteryDao.select("Miền Nam", formattedDate,"Giải Sáu");
-                    ArrayList<Lottery> giaiBay = LoteryDao.select("Miền Nam",  formattedDate,"Giải Bảy");
-                    ArrayList<Lottery> giaiTam= LoteryDao.select("Miền Nam",  formattedDate,"Giải Tám");
+                    try {
+                        ArrayList<Lottery>   arrayList = LoteryDao.arrayList("Miền Nam", formattedDate);
+                        int  countDoMain = LoteryDao.countDomain("Miền Nam", formattedDate);
+                        tableModel = new DefaultTableModel(9, countDoMain +1);
+                        for (int i = 1; i <= arrayList.size(); i++) {
+                            table.getColumnModel().getColumn(i).setHeaderValue(arrayList.get(i-1).getProvince());
+                        }
+
+                        /**
+                         *ghi tên các Giai
+                         *
+                         */
+                        ArrayList<Lottery> giaidb =LoteryDao.select("Miền Nam", formattedDate,"Đặc Biệt");
+                        ArrayList<Lottery> giaiNhat = LoteryDao.select("Miền Nam",  formattedDate,"Giải Nhất");
+                        ArrayList<Lottery> giaiNhi = LoteryDao.select("Miền Nam",  formattedDate,"Giải Nhì");
+                        ArrayList<Lottery> giaiBA = LoteryDao.select("Miền Nam",  formattedDate,"Giải Ba");
+                        ArrayList<Lottery> giaiTu= LoteryDao.select("Miền Nam", formattedDate,"Giải Tư");
+                        ArrayList<Lottery> giaiNam= LoteryDao.select("Miền Nam",  formattedDate,"Giải Năm");
+                        ArrayList<Lottery> giaiSau = LoteryDao.select("Miền Nam", formattedDate,"Giải Sáu");
+                        ArrayList<Lottery> giaiBay = LoteryDao.select("Miền Nam",  formattedDate,"Giải Bảy");
+                        ArrayList<Lottery> giaiTam= LoteryDao.select("Miền Nam",  formattedDate,"Giải Tám");
 //tạo các html để xuông dòng
-                    String result = "<html>";
-                    String result1 = "<html>";
-                    String result2 = "<html>";
-                    String result3 = "<html>";
-                    String result4 = "<html>";
-                    String result5 = "<html>";
-                    String result6= "<html>";
-                    String result7 = "<html>";
-                    String result8 = "<html>";
-                    String result9 = "<html>";
-                    String result10 = "<html>";
-                    String result11= "<html>";
-                    /***
-                     * Hiên thi thông tin
-                     * điều chỉnh độ cao
-                     */
-                    int rowHeight = 50;
-                    int rowHeight1 = 70;
-                    int rowHeight2 = 100;
-                    int rowHeight4 = 120;
-                    int rowHeight3= 70;
-                    int rowIndexToSetHeight = 2;
-                    int rowIndexToSetHeight1 = 4;
-                    int rowIndexToSetHeight3= 3;
-                    int rowIndexToSetHeight5= 5;
-                    int rowIndexToSetHeight6= 6;
-                    int rowIndexToSetHeight7= 7;
-                    int numberOfRowsToAdd =2;
-                    int rowIndexToSetHeight2 = 5;
-                    table.setRowHeight(rowIndexToSetHeight, rowHeight);
-                    table.setRowHeight(rowIndexToSetHeight1, rowHeight4);
-                    table.setRowHeight(rowIndexToSetHeight3, rowHeight);
-                    table.setRowHeight(rowIndexToSetHeight2, rowHeight);
-                    table.setRowHeight(rowIndexToSetHeight5, rowHeight);
-                    table.setRowHeight(rowIndexToSetHeight6, rowHeight);
-                    table.setRowHeight(rowIndexToSetHeight7, rowHeight);
-                    /**
-                     * Ghi gia tri giai vao bang
-                     */
-                    for (int i = 1; i <= giaidb.size(); i++) {
+                        String result = "<html>";
+                        String result1 = "<html>";
+                        String result2 = "<html>";
+                        String result3 = "<html>";
+                        String result4 = "<html>";
+                        String result5 = "<html>";
+                        String result6= "<html>";
+                        String result7 = "<html>";
+                        String result8 = "<html>";
+                        String result9 = "<html>";
+                        String result10 = "<html>";
+                        String result11= "<html>";
+                        /***
+                         * Hiên thi thông tin
+                         * điều chỉnh độ cao
+                         */
+                        int rowHeight = 50;
+                        int rowHeight1 = 70;
+                        int rowHeight2 = 100;
+                        int rowHeight4 = 120;
+                        int rowHeight3= 70;
+                        int rowIndexToSetHeight = 2;
+                        int rowIndexToSetHeight1 = 4;
+                        int rowIndexToSetHeight3= 3;
+                        int rowIndexToSetHeight5= 5;
+                        int rowIndexToSetHeight6= 6;
+                        int rowIndexToSetHeight7= 7;
+                        int numberOfRowsToAdd =2;
+                        int rowIndexToSetHeight2 = 5;
+                        table.setRowHeight(rowIndexToSetHeight, rowHeight);
+                        table.setRowHeight(rowIndexToSetHeight1, rowHeight4);
+                        table.setRowHeight(rowIndexToSetHeight3, rowHeight);
+                        table.setRowHeight(rowIndexToSetHeight2, rowHeight);
+                        table.setRowHeight(rowIndexToSetHeight5, rowHeight);
+                        table.setRowHeight(rowIndexToSetHeight6, rowHeight);
+                        table.setRowHeight(rowIndexToSetHeight7, rowHeight);
+                        /**
+                         * Ghi gia tri giai vao bang
+                         */
+                        for (int i = 1; i <= giaidb.size(); i++) {
 
-                        double giaiDacBietValue = Double.parseDouble(giaidb.get(i-1).getWinningNumbers());
-                        table.setValueAt((int) giaiDacBietValue, 8, i);
-                    }
-                    // giai nhat
-                    for (int i = 1; i <= giaiNhat.size(); i++) {
-                        double giainhat =Double.parseDouble(giaiNhat.get(i-1).getWinningNumbers());
+                            double giaiDacBietValue = Double.parseDouble(giaidb.get(i-1).getWinningNumbers());
+                            table.setValueAt((int) giaiDacBietValue, 8, i);
+                        }
+                        // giai nhat
+                        for (int i = 1; i <= giaiNhat.size(); i++) {
+                            double giainhat =Double.parseDouble(giaiNhat.get(i-1).getWinningNumbers());
 //            result = giaiNhat.get(i-1).getWinningNumbers().toString() ;
-                        table.setValueAt((int) giainhat, 7, i);
-                    }
-                    /**
-                     * Giải Nhì
-                     */
-                    for (int i = 1; i <= giaiNhi.size(); i++) {
-                        double giainhi =Double.parseDouble( giaiNhi.get(i-1).getWinningNumbers());
-                        table.setValueAt((int) giainhi, 6, i);
-                    }
+                            table.setValueAt((int) giainhat, 7, i);
+                        }
+                        /**
+                         * Giải Nhì
+                         */
+                        for (int i = 1; i <= giaiNhi.size(); i++) {
+                            double giainhi =Double.parseDouble( giaiNhi.get(i-1).getWinningNumbers());
+                            table.setValueAt((int) giainhi, 6, i);
+                        }
 /**
  * Giai Ba
  */
-                    for (int i = 0; i < 2; i++) {
-                        String numberString = giaiBA.get(i).getWinningNumbers();
-                        // Tách chuỗi bởi dấu chấm và lấy phần đầu tiên
-                        String wholeNumberPart = numberString.split("\\.")[0];
-                        result2 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result2, 5, 1);
-                    for (int i = 2; i < 4; i++) {
-                        String numberString = giaiBA.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result3 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result3, 5, 2);
+                        for (int i = 0; i < 2; i++) {
+                            String numberString = giaiBA.get(i).getWinningNumbers();
+                            // Tách chuỗi bởi dấu chấm và lấy phần đầu tiên
+                            String wholeNumberPart = numberString.split("\\.")[0];
+                            result2 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result2, 5, 1);
+                        for (int i = 2; i < 4; i++) {
+                            String numberString = giaiBA.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result3 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result3, 5, 2);
 
-                    for (int i = 4; i < 6; i++) {
-                        String numberString = giaiBA.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result4 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result4, 5, 3);
+                        for (int i = 4; i < 6; i++) {
+                            String numberString = giaiBA.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result4 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result4, 5, 3);
 /**
  * Giai Tu
  */
-                    for (int i = 0; i < 7; i++) {
-                        String numberString = giaiTu.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result5 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result5, 4, 1);
+                        for (int i = 0; i < 7; i++) {
+                            String numberString = giaiTu.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result5 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result5, 4, 1);
 
-                    for (int i = 7; i < 14; i++) {
-                        String numberString = giaiTu.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result6 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result6, 4, 2);
+                        for (int i = 7; i < 14; i++) {
+                            String numberString = giaiTu.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result6 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result6, 4, 2);
 
-                    for (int i = 14; i < 21; i++) {
-                        String numberString = giaiTu.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result7 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result7, 4, 3);
-                    /**
-                     * Giai năm
-                     *
-                     */
-                    for (int i = 1; i <= giaiNam.size(); i++) {
-                        double giainam = Double.parseDouble(giaiNam.get(i-1).getWinningNumbers());
-                        table.setValueAt((int)giainam, 3, i);
-                    }
-                    /**
-                     * Giai Sau
-                     */
-                    for (int i = 0; i < 3; i++) {
-                        String numberString = giaiSau.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result8 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result8, 2, 1);
+                        for (int i = 14; i < 21; i++) {
+                            String numberString = giaiTu.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result7 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result7, 4, 3);
+                        /**
+                         * Giai năm
+                         *
+                         */
+                        for (int i = 1; i <= giaiNam.size(); i++) {
+                            double giainam = Double.parseDouble(giaiNam.get(i-1).getWinningNumbers());
+                            table.setValueAt((int)giainam, 3, i);
+                        }
+                        /**
+                         * Giai Sau
+                         */
+                        for (int i = 0; i < 3; i++) {
+                            String numberString = giaiSau.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result8 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result8, 2, 1);
 
-                    for (int i = 3; i < 6; i++) {
-                        String numberString = giaiSau.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result9 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result9, 2, 2);
+                        for (int i = 3; i < 6; i++) {
+                            String numberString = giaiSau.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result9 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result9, 2, 2);
 
-                    for (int i = 6; i < 9; i++) {
-                        String numberString = giaiSau.get(i).getWinningNumbers();
-                        String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
-                        result10 += wholeNumberPart + "<br>";
-                    }
-                    table.setValueAt(result10, 2, 3);
-                    /**
-                     * Giai bay
-                     */
-                    for (int i = 1; i <= giaiBay.size(); i++) {
-                        double bay =Double.parseDouble(giaiBay.get(i-1).getWinningNumbers());
-                        table.setValueAt((int)bay, 1, i);
-                    }
-                    /**
-                     * Giai Tam
-                     */
-                    for (int i = 1; i <= giaiTam.size(); i++) {
-                        double tam=Double.parseDouble(giaiTam.get(i-1).getWinningNumbers());
-                        table.setValueAt((int)tam, 0, i);
+                        for (int i = 6; i < 9; i++) {
+                            String numberString = giaiSau.get(i).getWinningNumbers();
+                            String wholeNumberPart = numberString.split("\\.")[0]; // Chia chuỗi và lấy phần trước dấu chấm
+                            result10 += wholeNumberPart + "<br>";
+                        }
+                        table.setValueAt(result10, 2, 3);
+                        /**
+                         * Giai bay
+                         */
+                        for (int i = 1; i <= giaiBay.size(); i++) {
+                            double bay =Double.parseDouble(giaiBay.get(i-1).getWinningNumbers());
+                            table.setValueAt((int)bay, 1, i);
+                        }
+                        /**
+                         * Giai Tam
+                         */
+                        for (int i = 1; i <= giaiTam.size(); i++) {
+                            double tam=Double.parseDouble(giaiTam.get(i-1).getWinningNumbers());
+                            table.setValueAt((int)tam, 0, i);
+                        }
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
                     }
 
 
@@ -253,7 +260,7 @@ public class Gui extends JFrame implements ActionListener {
         lbname.setBounds(130, 70, 250, 34);
     }
 
-    private void addTableAdmin() throws SQLException {
+    private void addTableAdmin() throws SQLException , IOException {
         String result = "<html>";
         String result1 = "<html>";
         String result2 = "<html>";
@@ -269,7 +276,7 @@ public class Gui extends JFrame implements ActionListener {
         LoteryDao loteryDao = new LoteryDao();
 
         int  countDoMain = LoteryDao.countDomain("Miền Nam",  loteryDao.maxDate());
-        date.setText(       loteryDao.formatDate(loteryDao.maxDate()));
+        date.setText(    loteryDao.formatDate(loteryDao.maxDate()));
         tableModel = new DefaultTableModel(9, countDoMain +1);
         table = new JTable(tableModel);
         table.getColumnModel().getColumn(0).setHeaderValue("Giải");
@@ -281,7 +288,6 @@ public class Gui extends JFrame implements ActionListener {
 
         ArrayList<Lottery> arrayList = LoteryDao.arrayList("Miền Nam",  loteryDao.maxDate());
         for (int i = 1; i <= arrayList.size(); i++) {
-
             table.getColumnModel().getColumn(i).setHeaderValue(arrayList.get(i-1).getProvince());
             System.out.println(arrayList.get(i-1).getProvince());
 
@@ -290,8 +296,6 @@ public class Gui extends JFrame implements ActionListener {
          * Ghi cá giải
          */
         for (int i = 0; i < 9; i++) {
-
-
             tableModel.setValueAt("Giải  Tám", 0, 0);
             tableModel.setValueAt("Giải Bảy", 1, 0);
             tableModel.setValueAt("Giải Sáu", 2, 0);
@@ -455,7 +459,7 @@ public class Gui extends JFrame implements ActionListener {
 
     }
 
-    public static void main(String[] a) throws SQLException {
+    public static void main(String[] a) throws SQLException, IOException {
         Gui frame = new Gui();
         frame.setTitle("Sổ xố kiến thiết");
         frame.setVisible(true);

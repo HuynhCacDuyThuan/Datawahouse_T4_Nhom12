@@ -4,6 +4,7 @@ import connect.Control;
 import connect.DataMart;
 import connect.DataWahouse;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
@@ -186,13 +187,12 @@ public class Transfer {
 
          int id =tranfer.getid(c.connection());
          id++;
-
             System.out.println(id);
             int id_Control = tranfer.getid_Control(c.connection());
             id_Control ++;
             System.out.println(id_Control);
             tranfer.insertDataMart(connectionMart, c.connection(), conWasehouse);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }

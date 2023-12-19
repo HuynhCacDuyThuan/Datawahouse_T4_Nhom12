@@ -4,13 +4,14 @@ package controller;
 import connect.DataMart;
 import model.Lottery;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class LoteryDao {
-public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLException {
+public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLException, IOException {
     Connection connection = DataMart.connection();
 
     ArrayList<Lottery> list = new ArrayList<>();
@@ -25,7 +26,7 @@ public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLE
     }
     return list;
 }
-    public static int countDomain(String domain, String date) {
+    public static int countDomain(String domain, String date)  throws IOException {
         int result = 0;
 
         try {
@@ -54,7 +55,7 @@ public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLE
 
         return result;
     }
-    public static ArrayList<Lottery> select(String domain, String date, String prize) {
+    public static ArrayList<Lottery> select(String domain, String date, String prize) throws  IOException  {
         ArrayList<Lottery> list = new ArrayList<>();
         try {
             Connection connection = DataMart.connection();
@@ -87,7 +88,7 @@ public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLE
      * @param date
      * @return
      */
-    public static ArrayList<Lottery> arrayList(String domain, String date) {
+    public static ArrayList<Lottery> arrayList(String domain, String date) throws   IOException  {
         ArrayList<Lottery> list = new ArrayList<>();
         try {
             Connection connection = DataMart.connection();
@@ -117,7 +118,7 @@ public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLE
      * @param args
      * @throws SQLException
      */
-    public String maxDate() throws SQLException {
+    public String maxDate() throws SQLException , IOException {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -163,7 +164,7 @@ public static ArrayList<Lottery> lotteries (String date,String mien) throws SQLE
         LocalDateTime dateTime = LocalDateTime.parse(dateString, inputFormatter);
         return dateTime.format(outputFormatter);
     }
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException , IOException  {
         LoteryDao loteryDao = new LoteryDao();
         System.out.println(loteryDao.formatDate(loteryDao.maxDate()));
     }
