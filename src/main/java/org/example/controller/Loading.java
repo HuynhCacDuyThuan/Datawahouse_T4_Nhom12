@@ -11,13 +11,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class Loading {
 
     public static void main(String[] args) throws SQLException, IOException, CsvException {
         Connection conn_control = DBConnect.getConnection("DESKTOP-KM92DV1", "1433",
-                "control_database", "sa", "123abc");
+                "control", "sa", "123abc");
         Connection conn_staging = DBConnect.getConnection("DESKTOP-KM92DV1", "1433",
                 "staging", "sa", "123abc");
         try {
@@ -41,34 +44,45 @@ public class Loading {
 
     }
 
-    //Update status
-    public static void updateStatus(Connection conn, ResultSet resultSet, String status) throws SQLException {
-        String query = "UPDATE data_log SET status = ?";
-        PreparedStatement preparedStatement = conn.prepareStatement(query);
-        preparedStatement.setString(1, status);
-        preparedStatement.executeUpdate();
+
+    public static void insertLog(Connection conn, int id, String path, String description, String status) throws SQLException {
+        String query = "insert into controls_logs values (?,?,?,?,?,?)";
+        PreparedStatement pm = conn.prepareStatement(query);
+        pm.setString(1,path);
+        pm.setInt(2, id);
+        pm.setString(3,description);
+        pm.setString(4, status);
+        pm.setDate(5, (java.sql.Date) new Date());
+        pm.setDate(6,(java.sql.Date) new Date());
     }
 
     public static void loadingCSVToStaging(Connection conn_control, Connection conn_staging) throws SQLException, IOException, CsvException {
 
         // Lấy dòng data log mới nhất
-        String pathQuery = "select top 1 * from data_log order by id desc";
+        String pathQuery = "select top 1 id, path" +
+                "from controls_configurations " +
+                "order by id desc";
         try ( PreparedStatement getPath = conn_control.prepareStatement(pathQuery)) {
 
             ResultSet datalog = getPath.executeQuery();
             datalog.next();
             // Lấy file csv
-            String filepath = datalog.getString("destination");
-
+            String filepath = datalog.getString("path");
+            // Lay id
+            int id = datalog.getInt("id");
             // Lấy status
-            String status = datalog.getString("status");
+            String sttQuery= "select top 1 status from controls_logs where control_id = ? order by id desc";
+            PreparedStatement getStt = conn_control.prepareStatement(sttQuery);
+            ResultSet rs = getStt.executeQuery();
+            rs.next();
+            String status = rs.getString("status");
 
             // Kiem tra da extract xong
-            if (status.equals("SE")) {
+            if (status.equals("E")) {
                 File file = new File(filepath);
                 if (file.exists()) {
                     // update bắt đầu load
-                    updateStatus(conn_control, datalog, "PL");
+                    insertLog(conn_control,id, filepath, "Bắt đầu Load", "SL");
                     String insertData = "";
                     CSVReader reader = new CSVReader(new FileReader(file));
                     List<String[]> allData = reader.readAll();
@@ -100,13 +114,13 @@ public class Loading {
                             try (PreparedStatement insert = conn_staging.prepareStatement(insertQuery)) {
                                 insert.executeUpdate();
                                 // update success load
-                                updateStatus(conn_control, datalog, "SL");
+                                insertLog(conn_control, id, filepath, "Success Load", "SL");
                             }
                         }
                     }
                 } else {
                     // Lỗi update fail load
-                    updateStatus(conn_control, datalog, "FL");
+                    insertLog(conn_control, id, filepath, "Fail Load", "FL");
                 }
             }
         }
